@@ -59,28 +59,15 @@ senderEmail=SYSTEM_EMAIL_SENDER_EMAIL
 ```
 Step 3, install all dependancies for ExpressJS
 
-**Yarn**
 ```console
-yarn install
-```
-
-**NPM**
-
-```console
-npm install
+cd server && yarn install
 ```
 
 Step 4, install all dependancies for ReactJS
 
-**Yarn**
+
 ```console
 cd client && yarn install
-```
-
-**NPM**
-
-```console
-cd client && npm install
 ```
 
 Step 5, create your own config.js in **client/src** directory with following settings:
@@ -122,23 +109,20 @@ claudia create --handler lambda.handler --deploy-proxy-api --region AWS_REGION_N
 
 ## How to run this?
 
-**Yarn**
-
 ```console
-yarn client
+cd client && yarn start
+```
+```console
+cd server && yarn start
 ```
 
-**NPM**
-
-```console
-npm run client
-```
 
 ## Unit Test
 
 For every main directory (components, containers etc.), there should be a \_\_tests\_\_ directory for all unit test cases.
 ```console
-yarn test [test_directory]
+cd clint && yarn test [test_directory]
+cd server && yarn test [test_directory]
 ```
 
 
@@ -166,63 +150,53 @@ Your contribution is appreicated. For the purpose of having good project managem
 │   │   └── App.js               # ** Where React webapp routes configured.
 │   │   └── index.js             # React webapp start point
 │   │   └── config.js            # All global configurations(not included in this repo)
-├── db                           # Directory for database raw sql file, migration script etc. 
-├── exceptions                   # Directory for all API exception types
-├── models                       # Directory for all API models
-│   ├── tests                    # Directory for all API models test cases
-│   └── account.js               # User model
-│   └── auth.js                  # Authentication model
-│   └── categorty.js             # Category model
-│   └── index.js                 # Aggregates all model files
-│   └── manufacturer.js          # Manufacturer model
-│   └── order.js                 # Order model
-│   └── product.js               # Product model
-│   └── public.js                # Public data model
-│   └── report.js                # Report model
-│   └── store.js                 # Store model
-│   └── supplier.js              # Supplier model
-│   ├── vendor                   # For 3rd party modules
-├── routes                       # Directory for all router files
-│   └── auth.js                  # Router for authentication endpoints
-│   └── category.js              # Router for category endpoints
-│   └── common.js                # Router for public data endpoints
-│   └── index.js                 # Aggregates all router files
-│   └── manufacturer.js          # Router for manufacturer endpoints
-│   └── order.js                 # Router for order endpoints
-│   └── product.js               # Router for product endpoints
-│   └── store.js                 # Router for store endpoints
-│   └── supplier.js              # Router for supplier endpoints
-│   ├── vendor                   # For 3rd party modules
-├── uploads                      # Directory for image uploading, will be created automatically(not included in this repo)
-└── .travis.yml                  # Travis CI config file
-└── .eslintrc.json               # **Don't change settings here.
-└── .env                         # Global environment variables(not included in this repo)
-└── app.js                       # Restful APIs written in ExpressJS
-└── app.local.js                 # Wrapper file for claudia.js
-└── lambda.js                    # Used by claudiajs for severless deployment, **Don't change contents here.
+├── server                       # The web backend written in ExpressJS
+│   │   ├── db                   # Directory for database raw sql file, migration script etc. 
+│   ├── exceptions               # Directory for all API exception types
+│   ├── models                   # Directory for all API models
+│   │   ├── tests                # Directory for all API models test cases
+│   │   └── account.js           # User model
+│   │   └── auth.js              # Authentication model
+│   │   └── categorty.js         # Category model
+│   │   └── index.js             # Aggregates all model files
+│   │   └── manufacturer.js      # Manufacturer model
+│   │   └── order.js             # Order model
+│   │   └── product.js           # Product model
+│   │   └── public.js            # Public data model
+│   │   └── report.js            # Report model
+│   │   └── store.js             # Store model
+│   │   └── supplier.js          # Supplier model
+│   │   ├── vendor               # For 3rd party modules
+│   ├── routes                   # Directory for all router files
+│   │   └── auth.js              # Router for authentication endpoints
+│   │   └── category.js          # Router for category endpoints
+│   │   └── common.js            # Router for public data endpoints
+│   │   └── index.js             # Aggregates all router files
+│   │   └── manufacturer.js      # Router for manufacturer endpoints
+│   │   └── order.js             # Router for order endpoints
+│   │   └── product.js           # Router for product endpoints
+│   │   └── store.js             # Router for store endpoints
+│   │   └── supplier.js          # Router for supplier endpoints
+│   │   ├── vendor               # For 3rd party modules
+│   ├── uploads                  # Directory for image uploading, will be created automatically(not included in this repo)
+│   └── .travis.yml              # Travis CI config file
+│   └── .eslintrc.json           # **Don't change settings here.
+│   └── .env                     # Global environment variables(not included in this repo)
+│   └── app.js                   # Restful APIs written in ExpressJS
+│   └── app.local.js             # Wrapper file for claudia.js
+│   └── lambda.js                # Used by claudiajs for severless deployment, **Don't change contents here.
+│   └── package.json             # All project dependancies
+│   └── middlewares.js           # Middlewares for ExpressJS routes
 └── LICENSE                      # Project license file, **Don't change contents here.
-└── package.json                 # All project dependancies
-└── middlewares.js               # Middlewares for ExpressJS routes
 └── README.md                    # **Don't change contents here.
 ```
 
-### 1. Always work on your own feature or bugfix branch.
 
 You will need to follow the naming convention if it's a new feature:
 **feature/xxx-xxx-xx**
 
 or **fix/xxx-xxx-xx** if it's a bug or other type of fixing branch.
 
-
-### 2. Always run eslint
-
-Before creating a PR, you should run:
-```console
-yarn lint:client
-```
-to make sure all formatting or other issues have been properly fixed.
-
-...
 
 ## About the logo
 

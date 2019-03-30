@@ -24,15 +24,10 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "lint:client": "./node_modules/.bin/eslint --fix client/src/",
-    "lint:server": "./node_modules/.bin/eslint --fix models/",
+    "lint": "./node_modules/.bin/eslint --fix .",
     "prettier": "prettier --single-quote --trailing-comma=es5 --write \"./**/*.js\"",
-    "build:client": "cd client && yarn build",
-    "client": "cd client && yarn start",
-    "client:analyze": "cd client && yarn analyze",
-    "server": "nodemon app.local.js",
-    "test:models": "mocha -t 60000 --exit \"./models/tests/**/*.js\"",
-    "coverage:server": "nyc --reporter=text mocha -t 60000 --exit \"./models/tests/**/*.js\"",
+    "start": "nodemon app.local.js",
+    "test": "nyc --reporter=text mocha -t 60000 --exit \"./tests/**/*.js\"",
     "serverless": "claudia update --handler lambda.handler --deploy-proxy-api",
     "db:migrate": "node ./db/migrate.js"
   },
@@ -45,7 +40,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^3.0.0",
-    "eslint-plugin-react": "^7.11.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "prettier": "^1.15.2"
