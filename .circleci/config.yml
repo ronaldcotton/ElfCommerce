@@ -3,6 +3,7 @@ jobs:
   frontend_test:
     docker:
       - image: circleci/node:8.10
+    working_directory: ~/repo
     steps:
       - checkout
       - run: |
@@ -11,6 +12,7 @@ jobs:
   backend_test:
     docker:
       - image: circleci/node:8.10
+    working_directory: ~/repo
     steps:
       - checkout
       - run: |
