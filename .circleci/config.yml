@@ -18,5 +18,4 @@ workflows:
   version: 2
   test_and_deploy:
     jobs:
-      - frontend_test
       - backend_test
