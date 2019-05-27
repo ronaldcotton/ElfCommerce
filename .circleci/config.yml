@@ -7,11 +7,6 @@ jobs:
       - checkout
       - run: cd server && yarn install
       - run: cd server && yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
   test:
     docker:
       - image: circleci/node:8.10
