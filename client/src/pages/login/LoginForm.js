@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -14,15 +13,11 @@ const loginValidation = Yup.object().shape({
   password: Yup.string().required('Required'),
 });
 
-class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showLoading: false,
-    };
+function LoginForm(){
+  const [showLoading, setCount] = useState(false);
 
-    localStorage.removeItem(config.accessTokenKey);
-  }
+  localStorage.removeItem(config.accessTokenKey);
+  
 
   componentDidUpdate() {
     const { auth } = this.props;
@@ -78,7 +73,7 @@ class LoginForm extends Component {
               <div className="text-danger">{errors.password}</div>
             )}
             <br />
-            {this.state.showLoading && auth === null ? (
+            {showLoading && auth === null ? (
               <img src={require('../../assets/coffee_loader.svg')} />
             ) : (
               <Button color="dark" type="submit" block disabled={isSubmitting}>
@@ -110,9 +105,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    null
-  )(injectIntl(LoginForm))
-);
+export default withRouter(injectIntl(LoginForm));
