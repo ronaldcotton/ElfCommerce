@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -13,49 +14,52 @@ const loginValidation = Yup.object().shape({
   password: Yup.string().required('Required'),
 });
 
-function LoginForm(){
-  const [showLoading, setCount] = useState(false);
+const LoginForm = props => {
+  const [showLoading, setLoading] = useState(false);
+  const [values, setValues] = useState({
+    username: '',
+    password: '',
+  });
+  const [auth, setAuth] = useState(null);
 
   localStorage.removeItem(config.accessTokenKey);
-  
 
-  componentDidUpdate() {
-    const { auth } = this.props;
+  useEffect(() => {
+    async function login() {
+      const res = await axios.post(`${config.apiDomain}/auth`, {
+        username: values.username,
+        password: values.password,
+        grantType: 'password',
+        scope: 'profile',
+      });
+      console.log(res);
 
-    if (auth) {
-      window.location.href = '/dashboard';
+      if (res.status === 200) {
+        localStorage.setItem(config.accessTokenKey, res.data.accessToken);
+        window.location.href = '/dashboard';
+      }
     }
-  }
 
-  onSubmit = data => {
-    this.setState({ showLoading: true }, () => {
-      const { dispatch } = this.props;
-      dispatch(submitLoginData(data));
-    });
-  };
+    login();
+  }, [values]);
 
-  render() {
-    const {
-      intl: { formatMessage },
-      auth,
-    } = this.props;
-
-    return (
-      <Formik
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(true);
-          this.onSubmit(values);
-          setSubmitting(false);
-        }}
-        validationSchema={loginValidation}
-      >
-        {({ handleChange, isSubmitting, errors }) => (
+  return (
+    <Formik
+      onSubmit={(values, { setSubmitting }) => {
+        setSubmitting(true);
+        setValues(values);
+        setSubmitting(false);
+      }}
+      validationSchema={loginValidation}
+    >
+      {({ handleChange, isSubmitting, errors }) => {
+        return (
           <Form id="login-form">
             <Input
               type="email"
               name="username"
               id="username"
-              placeholder={formatMessage({ id: 'sys.email' })}
+              placeholder="email"
               onChange={handleChange}
             />
             {errors.username && (
@@ -66,7 +70,7 @@ function LoginForm(){
               type="password"
               name="password"
               id="password"
-              placeholder={formatMessage({ id: 'sys.pwd' })}
+              placeholder="password"
               onChange={handleChange}
             />
             {errors.password && (
@@ -86,23 +90,17 @@ function LoginForm(){
               </Alert>
             ) : null}
           </Form>
-        )}
-      </Formik>
-    );
-  }
-}
-
-LoginForm.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  intl: PropTypes.object.isRequired,
-  auth: PropTypes.any,
-  history: PropTypes.object.isRequired,
+        );
+      }}
+    </Formik>
+  );
 };
 
-const mapStateToProps = state => {
-  return {
-    auth: state.authReducer.auth,
-  };
-};
+// LoginForm.propTypes = {
+//   dispatch: PropTypes.func.isRequired,
+//   intl: PropTypes.object.isRequired,
+//   auth: PropTypes.any,
+//   history: PropTypes.object.isRequired,
+// };
 
-export default withRouter(injectIntl(LoginForm));
+export default withRouter(LoginForm);
