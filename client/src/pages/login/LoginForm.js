@@ -104,11 +104,10 @@ const LoginForm = props => {
   );
 };
 
-// LoginForm.propTypes = {
-//   dispatch: PropTypes.func.isRequired,
-//   intl: PropTypes.object.isRequired,
-//   auth: PropTypes.any,
-//   history: PropTypes.object.isRequired,
-// };
+LoginForm.propTypes = {
+  intl: PropTypes.object.isRequired,
+  auth: PropTypes.any,
+  history: PropTypes.object.isRequired,
+};
 
 export default withRouter(LoginForm);
