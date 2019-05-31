@@ -26,28 +26,36 @@ const LoginForm = props => {
 
   useEffect(() => {
     async function login() {
-      const res = await axios.post(`${config.apiDomain}/auth`, {
-        username: values.username,
-        password: values.password,
-        grantType: 'password',
-        scope: 'profile',
-      });
-      console.log(res);
+      try {
+        if (showLoading) {
+          const res = await axios.post(`${config.apiDomain}/auth`, {
+            username: values.username,
+            password: values.password,
+            grantType: 'password',
+            scope: 'profile',
+          });
+          console.log(res);
 
-      if (res.status === 200) {
-        localStorage.setItem(config.accessTokenKey, res.data.accessToken);
-        window.location.href = '/dashboard';
+          if (res.status === 200) {
+            localStorage.setItem(config.accessTokenKey, res.data.accessToken);
+            window.location.href = '/dashboard';
+          }
+        }
+      } catch (e) {
+        setLoading(false);
+        setAuth(false);
       }
     }
 
     login();
-  }, [values]);
+  }, [showLoading]);
 
   return (
     <Formik
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(true);
         setValues(values);
+        setLoading(true);
         setSubmitting(false);
       }}
       validationSchema={loginValidation}
