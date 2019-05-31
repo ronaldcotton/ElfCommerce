@@ -6,15 +6,13 @@ import * as Yup from 'yup';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Button, Alert } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-import { submitLoginData } from '../../modules/auth';
 import config from '../../config';
 
-const loginValidation = Yup.object().shape({
-  username: Yup.string().required('Required'),
-  password: Yup.string().required('Required'),
-});
-
 const LoginForm = props => {
+  const {
+    intl: { formatMessage },
+  } = props;
+
   const [showLoading, setLoading] = useState(false);
   const [values, setValues] = useState({
     username: '',
@@ -34,7 +32,6 @@ const LoginForm = props => {
             grantType: 'password',
             scope: 'profile',
           });
-          console.log(res);
 
           if (res.status === 200) {
             localStorage.setItem(config.accessTokenKey, res.data.accessToken);
@@ -48,7 +45,7 @@ const LoginForm = props => {
     }
 
     login();
-  }, [showLoading]);
+  });
 
   return (
     <Formik
@@ -58,7 +55,6 @@ const LoginForm = props => {
         setLoading(true);
         setSubmitting(false);
       }}
-      validationSchema={loginValidation}
     >
       {({ handleChange, isSubmitting, errors }) => {
         return (
@@ -67,7 +63,7 @@ const LoginForm = props => {
               type="email"
               name="username"
               id="username"
-              placeholder="email"
+              placeholder={formatMessage({ id: 'sys.email' })}
               onChange={handleChange}
             />
             {errors.username && (
@@ -78,7 +74,7 @@ const LoginForm = props => {
               type="password"
               name="password"
               id="password"
-              placeholder="password"
+              placeholder={formatMessage({ id: 'sys.pwd' })}
               onChange={handleChange}
             />
             {errors.password && (
@@ -110,4 +106,4 @@ LoginForm.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export default withRouter(LoginForm);
+export default withRouter(injectIntl(LoginForm));
