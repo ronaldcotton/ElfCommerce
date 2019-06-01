@@ -74,6 +74,7 @@ const AccountList = props => {
           },
         });
       } catch (e) {
+        //TODO: to be rewritten
         setSelectedItem(null);
       } finally {
         setSelectedItem(null);
