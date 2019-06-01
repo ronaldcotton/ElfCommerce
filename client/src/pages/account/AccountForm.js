@@ -39,7 +39,7 @@ const AccountForm = props => {
   const [submit, setSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
-  const [accountDetails, setAccountDetails] = useState({});
+  const [accountDetails, setAccountDetails] = useState(null);
 
   useEffect(() => {
     async function fetchAccountDetails({ storeId, id }) {
@@ -89,12 +89,12 @@ const AccountForm = props => {
         setSubmit(false);
       }
     }
-    if (submit) {
+    if (submit && accountDetails) {
       submitForm();
     }
   }, [submit]);
 
-  return mode === 'update' && !('code' in accountDetails) ? (
+  return mode === 'update' && !accountDetails ? (
     <Loader />
   ) : (
     <Formik
