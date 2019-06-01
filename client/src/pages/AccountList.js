@@ -32,12 +32,12 @@ const AccountList = props => {
 
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [result, setResult] = useState({ accounts: [], count: 0 });
+  const [result, setResult] = useState({ items: [], count: 0 });
   const [total, setTotal] = useState(-1);
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    async function fetchAccounts() {
+    async function fetchItems() {
       try {
         const res = await axios({
           method: 'get',
@@ -51,14 +51,14 @@ const AccountList = props => {
 
         const diff = res.data.count / pageSize;
 
-        setResult({ accounts: res.data.data, count: res.data.count });
+        setResult({ items: res.data.data, count: res.data.count });
         setTotal(Number.isInteger(diff) ? diff : parseInt(diff) + 1);
       } catch (e) {
         //TODO: add error msg
         setResult({ accounts: [], count: 0 });
       }
     }
-    fetchAccounts();
+    fetchItems();
   }, [pageNo, selectedItem]);
 
   useEffect(() => {
@@ -168,16 +168,16 @@ const AccountList = props => {
                     </tr>
                   </thead>
                   <tbody>
-                    {result.accounts.length ? (
-                      result.accounts.map(acct => (
+                    {result.items.length ? (
+                      result.items.map(item => (
                         <AccountListItem
-                          key={acct.code}
-                          id={acct.code}
-                          name={acct.name}
-                          email={acct.email}
-                          joinedOn={acct.joinedOn}
-                          role={acct.role}
-                          status={acct.status}
+                          key={item.code}
+                          id={item.code}
+                          name={item.name}
+                          email={item.email}
+                          joinedOn={item.joinedOn}
+                          role={item.role}
+                          status={item.status}
                           onViewClick={viewItem}
                           onStatusUpdateClick={updateStatus}
                         />
