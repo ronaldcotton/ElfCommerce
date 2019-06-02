@@ -55,7 +55,7 @@ const AccountList = props => {
         setTotal(Number.isInteger(diff) ? diff : parseInt(diff) + 1);
       } catch (e) {
         //TODO: add error msg
-        setResult({ accounts: [], count: 0 });
+        setResult({ items: [], count: 0 });
       }
     }
     fetchItems();
