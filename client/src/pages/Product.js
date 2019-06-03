@@ -5,21 +5,24 @@ import { withRouter } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 import { FormattedMessage } from 'react-intl';
 import ProductForm from './product/ProductForm';
-import { ProductContext } from '../contexts';
+import { FormContext } from './contexts';
 import config from '../config';
 
 class Product extends Component {
   render() {
     const {
       history,
-      match: { path },
+      match: {
+        path,
+        params: { id },
+      },
     } = this.props;
     const {
       data: { storeId },
     } = jwt.decode(localStorage.getItem(config.accessTokenKey));
-    console.log(storeId);
+
     return (
-      <ProductContext.Provider value={{ storeId }}>
+      <FormContext.Provider value={{ storeId, id }}>
         <div className="page-navbar">
           <div className="page-name">
             <FormattedMessage id="sys.product" />
@@ -43,14 +46,11 @@ class Product extends Component {
         <div className="content-body">
           <Row>
             <Col md={12}>
-              <ProductForm
-                mode={path === '/new-product' ? 'new' : 'update'}
-                storeId={storeId}
-              />
+              <ProductForm mode={path === '/new-product' ? 'new' : 'update'} />
             </Col>
           </Row>
         </div>
-      </ProductContext.Provider>
+      </FormContext.Provider>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
@@ -27,12 +27,11 @@ import {
   ModalHeader,
   ModalBody,
 } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
-import { submitProduct } from '../../modules/product';
 import ProductAttributeForm from './ProductAttributeForm';
 import ProductAttributeListItem from './ProductAttributeListItem';
 import { ParallelLoader } from '../../components';
+import { FormContext } from '../contexts';
 import config from '../../config';
 
 const { mediaFileDomain, saveMediaFileLocal } = config;
@@ -49,13 +48,8 @@ const productValidation = Yup.object().shape({
 });
 
 const ProductForm = props => {
-  const {
-    mode,
-    storeId,
-    match: {
-      params: { id },
-    },
-  } = props;
+  const { storeId, id } = useContext(FormContext);
+  const { mode } = props;
   const [activeTab, setActiveTab] = useState('1');
   const [modal, setModal] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -657,7 +651,7 @@ const ProductForm = props => {
               <FormattedMessage id="sys.addProductAttribute" />
             </ModalHeader>
             <ModalBody>
-              <ProductAttributeForm storeId={storeId} />
+              <ProductAttributeForm />
             </ModalBody>
           </Modal>
         </TabPane>
@@ -670,7 +664,6 @@ ProductForm.propTypes = {
   intl: PropTypes.object.isRequired,
   match: PropTypes.object,
   mode: PropTypes.string.isRequired,
-  storeId: PropTypes.string.isRequired,
 };
 
-export default withRouter(injectIntl(ProductForm));
+export default injectIntl(ProductForm);

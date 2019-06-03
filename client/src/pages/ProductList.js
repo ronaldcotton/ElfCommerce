@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import {
@@ -17,17 +17,18 @@ import { MdAddCircleOutline, MdSearch } from 'react-icons/md';
 import ReactPaginate from 'react-paginate';
 import jwt from 'jsonwebtoken';
 import ProductListItem from './product/ProductListItem';
-import { ProductContext } from '../contexts';
 import { Loader } from '../components';
 import config from '../config';
 
 const ProductList = props => {
-  const ctx = useContext(ProductContext);
-
   const {
     history,
     intl: { formatMessage },
   } = props;
+
+  const {
+    data: { storeId },
+  } = jwt.decode(localStorage.getItem(config.accessTokenKey));
 
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -40,9 +41,9 @@ const ProductList = props => {
       try {
         const res = await axios({
           method: 'get',
-          url: `${config.apiDomain}/stores/${
-            ctx.storeId
-          }/products?page=${pageNo}&size=${pageSize}`,
+          url: `${
+            config.apiDomain
+          }/stores/${storeId}/products?page=${pageNo}&size=${pageSize}`,
           headers: {
             authorization: localStorage.getItem(config.accessTokenKey),
           },
@@ -65,7 +66,7 @@ const ProductList = props => {
       try {
         const res = await axios({
           method: !selectedItem.status ? 'delete' : 'patch',
-          url: `${config.apiDomain}/stores/${ctx.storeId}/products/${
+          url: `${config.apiDomain}/stores/${storeId}/products/${
             selectedItem.id
           }`,
           headers: {

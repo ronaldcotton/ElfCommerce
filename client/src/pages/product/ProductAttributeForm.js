@@ -5,10 +5,11 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button, Row, Col, Input, FormGroup, Label } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
 import numeral from 'numeral';
 import { selectOrderProduct, addOrderProduct } from '../../modules/order';
 import { searchProducts, clearSearchProducts } from '../../modules/product';
+import { FormContext } from '../contexts';
+import config from '../../config';
 
 const productAttrValidation = Yup.object().shape({
   attributeName: Yup.string().required('Required'),
@@ -20,10 +21,10 @@ const productAttrValidation = Yup.object().shape({
 });
 
 const ProductAttributeForm = props => {
-  //TODO: replace this by product attribute categories
-  const categories = [];
+  const { storeId, id } = useContext(FormContext);
+  const [categories, setCategories] = useState([]);
   const onSearchChange = event => {
-    const { dispatch, storeId } = this.props;
+    const { dispatch } = props;
 
     // TODO: replace hardcoded page number and page size
     if (event.target.value.length >= 3) {
@@ -41,7 +42,7 @@ const ProductAttributeForm = props => {
   };
 
   const onItemClick = item => {
-    const { dispatch, reset } = this.props;
+    const { dispatch, reset } = props;
     dispatch(clearSearchProducts());
     dispatch(selectOrderProduct(item));
 
@@ -49,7 +50,7 @@ const ProductAttributeForm = props => {
   };
 
   const onAddProductSubmit = item => {
-    const { dispatch, reset } = this.props;
+    const { reset } = props;
   };
 
   return (
@@ -167,12 +168,9 @@ const ProductAttributeForm = props => {
 };
 
 ProductAttributeForm.propTypes = {
-  storeId: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
   reset: PropTypes.func,
   match: PropTypes.object,
-  history: PropTypes.object.isRequired,
 };
 
-export default withRouter(injectIntl(ProductAttributeForm));
+export default injectIntl(ProductAttributeForm);
