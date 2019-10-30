@@ -29,16 +29,16 @@ Step 2, add the **_.env_** file in **server** directory with environment setting
 
 ```
 tokenSecret=REPLACE_THIS_WITH_ANY_LONG_RANDOM_STRING
-dbHost=MYSQL_SERVER_CONNECTION_STRING
-dbUser=MYSQL_USER
-dbPassword=MYSQL_USER_PASSWORD
-dbName=MYSQL_DATABASE_NAME
-testDbName=MYSQL_DATABASE_NAME_FOR_INTEGRATION_TEST
+dbHost=localhost:3306
+dbUser=root
+dbPassword=root
+dbName=elf
+testDbName=elf
 sendgridApiKey=SENDGRID_API_KEY
 sendgridDailyLimit=SENDGRID_DAILY_LIMIT_FOR_FREETIER
 elasticemailApiKey=ELASTICEMAIL_API_KEY
 elasticemailDailyLimit=ELASTICEMAIL_DAILY_LIMIT_FOR_FREETIER
-passwordCallbackUrl=https://www.example.com
+passwordCallbackUrl=http://localhost:8080
 senderEmail=SYSTEM_EMAIL_SENDER_EMAIL
 ```
 
@@ -58,18 +58,19 @@ Step 5, create your own config.js in **client/src** directory with following set
 
 ```javascript
 const config = {
-  apiDomain: 'API_DOMAIN',
+  apiDomain: '',
   accessTokenKey: 'THE_KEY_FOR_LOCAL_STORAGE_TO_STORE_ACCESS_TOKEN',
   googleApiKey: 'GOOGLE_API_KEY',
-  mediaFileDomain: 'http://localhost:8080', //If you allow images to be uploaded to your local server
+  mediaFileDomain: '', //If you allow images to be uploaded to your local server
   saveMediaFileLocal: false, //Set this to true if you allow images to be uploaded to your local server
   sendgridApiKey: 'SENDGRID_API_KEY',
   sendgridDailyLimit: 'SENDGRID_DAILY_LIMIT_FOR_FREETIER',
   elasticemailApiKey: 'ELASTICEMAIL_API_KEY',
   elasticemailDailyLimit: 'ELASTICEMAIL_DAILY_LIMIT_FOR_FREETIER',
-  passwordCallbackUrl: 'https://www.example.com',
+  passwordCallbackUrl: 'http://localhost:8080', // was https
   senderEmail: 'SYSTEM_EMAIL_SENDER_EMAIL',
 };
+
 
 export default config;
 ```
